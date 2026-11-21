@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Rapport d'avancement – Mini-projet ERP Programming – S8</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 20mm 17mm;
+          @bottom-center { content: "Rapport d'avancement · Mini-projet ERP Programming · page " counter(page) " / " counter(pages);
+                           font: 8.5pt "Segoe UI", Arial, sans-serif; color: #7B8794; } }
+  :root { --accent: #714B67; --encre: #1F2933; --gris: #52606D; --trait: #E4DCE2; --fond: #F7F3F6; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Calibri, Arial, sans-serif; font-size: 10.3pt; line-height: 1.45;
+         color: var(--encre); margin: 0; }
+  h1 { font-size: 21pt; margin: 0 0 4px; line-height: 1.2; }
+  h2 { font-size: 13.5pt; color: var(--accent); margin: 20px 0 8px; padding-bottom: 4px;
+       border-bottom: 2px solid var(--trait); break-after: avoid; }
+  h3 { font-size: 11pt; margin: 14px 0 5px; break-after: avoid; }
+  p { margin: 0 0 7px; }
+  ul { margin: 0 0 8px; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 12px; font-size: 9.4pt; break-inside: avoid; }
+  table.long { break-inside: auto; }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; }
+  th { background: var(--fond); text-align: left; font-weight: 600; color: var(--gris);
+       border-bottom: 1.5px solid var(--trait); padding: 5px 7px; }
+  td { border-bottom: 1px solid var(--trait); padding: 5px 7px; vertical-align: top; }
+  code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 8.9pt; background: #F1ECF0;
+         padding: 0 3px; border-radius: 3px; }
+  pre { font-family: Consolas, monospace; font-size: 8.2pt; background: #F6F4F6; border: 1px solid var(--trait);
+        border-radius: 5px; padding: 8px 10px; white-space: pre-wrap; margin: 4px 0 10px; break-inside: avoid; }
+  .entete { border-left: 5px solid var(--accent); padding: 4px 0 4px 14px; margin-bottom: 14px; }
+  .sous-titre { color: var(--gris); font-size: 10.5pt; margin: 2px 0 0; }
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 24px; font-size: 9.6pt; color: var(--gris);
+          background: var(--fond); padding: 9px 13px; border-radius: 6px; margin: 10px 0 14px; }
+  .meta b { color: var(--encre); font-weight: 600; }
+  .resume { background: #FFFBEA; border: 1px solid #F0D98C; border-radius: 6px; padding: 9px 13px; margin-bottom: 6px; }
+  .etat { display: inline-block; font-size: 8.4pt; font-weight: 700; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+  .fait { background: #DDF3E4; color: #1E7B45; }
+  .partiel { background: #FFF0CC; color: #8A5A00; }
+  .afaire { background: #ECEFF3; color: #52606D; }
+  figure { margin: 8px 0 12px; text-align: center; break-inside: avoid; }
+  figure img { width: 100%; border: 1px solid var(--trait); border-radius: 6px; }
+  figcaption { font-size: 8.8pt; color: var(--gris); margin-top: 4px; }
+  .chiffres { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 8px 0 12px; }
+  .chiffre { background: var(--fond); border-radius: 6px; padding: 8px 10px; }
+  .chiffre b { display: block; font-size: 15pt; color: var(--accent); line-height: 1.15; }
+  .chiffre span { font-size: 8.6pt; color: var(--gris); }
+  .note { font-size: 9pt; color: var(--gris); }
+</style>
+</head>
+<body>
+
+<div class="entete">
+  <h1>Rapport d'avancement · Mini-projet ERP Programming</h1>
+  <p class="sous-titre">Étude et optimisation de la gestion de la maintenance industrielle dans l'ERP Odoo par l'intégration de fonctionnalités prédictives</p>
+</div>
+
+<div class="meta">
+  <div><b>Matière :</b> ERP Programming</div>
+  <div><b>Étudiant :</b> Ayoub Gaouet · 3<sup>e</sup> année, cycle ingénieur</div>
+  <div><b>Séance de suivi :</b> S8</div>
+  <div><b>Date :</b> 7 novembre 2026</div>
+</div>
+
+<div class="resume">
+  <b>En résumé.</b> Le module Odoo 17 <code>predimaint</code> est développé, testé et installé. Il ajoute à
+  l'application Maintenance un score de santé par équipement, des seuils capteurs par catégorie et des alertes
+  reçues par l'API XML-RPC. Une alerte critique crée automatiquement une demande d'intervention
+  <i>prédictive</i>, affectée à la bonne équipe et sans doublon ; le responsable maintenance garde la décision.
+  17 tests unitaires passent, l'installation sur base vierge ne produit aucun avertissement, et le scénario a
+  été joué de bout en bout. Prochaines étapes : kanban coloré, rapport QWeb, escalade automatique, groupes de
+  sécurité et pièces détachées.
+</div>
+
+<h2>1. État d'avancement</h2>
+<table class="long">
+  <thead><tr><th style="width:34%">Critère (cahier des charges, § 11.1 et § 6)</th><th style="width:12%">État</th><th>Détail</th></tr></thead>
+  <tr><td>Module <code>predimaint</code> installable sur base vierge</td><td><span class="etat fait">Fait</span></td><td>Version 17.0.1.0.0, dépend de <code>maintenance</code> et <code>stock</code> ; 0 avertissement.</td></tr>
+  <tr><td>Modèles (2 extensions, 2 nouveaux)</td><td><span class="etat fait">Fait</span></td><td>Équipement, demande, seuils, alertes ; champs calculés et contraintes.</td></tr>
+  <tr><td>Fiche équipement : score, état, seuils</td><td><span class="etat fait">Fait</span></td><td>Onglet « Santé » ajouté par héritage de vue, bouton « Alertes ».</td></tr>
+  <tr><td>Alerte API → demande prédictive, bonne équipe, sans doublon</td><td><span class="etat fait">Fait</span></td><td>Méthode <code>create_from_api</code> ; vérifié par les tests et par une démonstration réelle.</td></tr>
+  <tr><td>Validation humaine (boutons)</td><td><span class="etat fait">Fait</span></td><td>« Valider et créer la demande », « Fausse alerte ».</td></tr>
+  <tr><td>Tests unitaires</td><td><span class="etat fait">Fait</span></td><td>17 tests <code>TransactionCase</code>, 0 échec.</td></tr>
+  <tr><td>Données de base réalistes</td><td><span class="etat partiel">Partiel</span></td><td>20 équipements, 2 équipes, 4 catégories, 19 seuils ; pièces détachées et Achats à faire.</td></tr>
+  <tr><td>Droits et sécurité (§ 5.4, 6.5)</td><td><span class="etat partiel">Partiel</span></td><td>Droits utilisateur / responsable ; groupes métier, règles par équipe et tests non-admin à faire.</td></tr>
+  <tr><td>Analyse du processus (note de cadrage)</td><td><span class="etat partiel">Partiel</span></td><td>AS-IS, TO-BE, acteurs et KPI décrits dans le cahier des charges ; note de cadrage à rédiger.</td></tr>
+  <tr><td>Kanban des équipements coloré par état</td><td><span class="etat afaire">À faire</span></td><td>L'état est déjà stocké, donc utilisable pour la couleur.</td></tr>
+  <tr><td>Rapport QWeb « Fiche santé équipement »</td><td><span class="etat afaire">À faire</span></td><td>Dossier <code>reports/</code> préparé.</td></tr>
+  <tr><td>Escalade (<code>ir.cron</code>) et notification Discuss</td><td><span class="etat afaire">À faire</span></td><td>Relance si une alerte critique n'est pas traitée sous 2 h.</td></tr>
+  <tr><td>Import CSV de l'historique</td><td><span class="etat afaire">À faire</span></td><td>Historique de pannes disponible (jeu public préparé côté Big Data).</td></tr>
+  <tr><td>Consommation de pièces et réapprovisionnement</td><td><span class="etat afaire">À faire</span></td><td>Nécessite les pièces détachées et le module Achats.</td></tr>
+</table>
+
+<h2>2. Processus métier visé</h2>
+<table>
+  <tr><th style="width:50%">Situation actuelle (AS-IS)</th><th>Situation cible (TO-BE)</th></tr>
+  <tr><td>La panne est découverte quand la machine s'arrête.</td><td>Les capteurs détectent la dérive avant la panne.</td></tr>
+  <tr><td>L'opérateur prévient par téléphone ; le responsable note sur papier ou dans un tableur.</td><td>L'alerte crée automatiquement une demande d'intervention dans Odoo, avec la machine et la mesure en cause.</td></tr>
+  <tr><td>Aucun historique par machine, donc pas de MTBF, MTTR ni disponibilité.</td><td>Score de santé, MTBF et disponibilité suivis par équipement dans Odoo.</td></tr>
+  <tr><td>Préventif inexistant ou fixe (calendrier).</td><td>Maintenance <i>prédictive</i>, selon l'état réel de la machine ; décision gardée par le responsable.</td></tr>
+</table>
+<p>Le standard Odoo couvre l'essentiel (équipements, équipes, demandes, étapes). Le développement est justifié
+par trois besoins qui le dépassent : des seuils et un score de santé propres à chaque machine, la réception de
+données d'une source externe (la chaîne Big Data), et une règle d'escalade des alertes.</p>
+
+<h2>3. Conception du module</h2>
+
+<h3>3.1 Modèle de données</h3>
+<figure>
+  <img src="../images/modele_donnees.svg" alt="Modèle de données du module predimaint">
+  <figcaption>Figure 1 · Modèles du module : deux modèles standard étendus par héritage, deux nouveaux modèles.</figcaption>
+</figure>
+<p>Les modèles standard ne sont jamais modifiés : les champs sont ajoutés par <code>_inherit</code>. L'état de
+santé est calculé (<code>@api.depends</code>) et stocké, pour pouvoir filtrer et regrouper les équipements. La
+contrainte <code>@api.constrains</code> interdit un seuil critique inférieur ou égal au seuil d'alerte. Le type
+« Prédictive » est ajouté aux demandes par <code>selection_add</code>, avec <code>ondelete='set default'</code> :
+si le module est désinstallé, ces demandes redeviennent correctives au lieu de bloquer.</p>
+
+<h3>3.2 Traitement d'une alerte</h3>
+<figure>
+  <img src="../images/traitement_alerte.svg" alt="Traitement d'une alerte reçue par l'API">
+  <figcaption>Figure 2 · Règles appliquées par <code>create_from_api</code>, puis décision du responsable maintenance.</figcaption>
+</figure>
+<ul>
+  <li><b>Sécurité de l'API</b> : seuls les champs de mesure sont acceptés ; la chaîne Big Data ne peut pas forcer l'état d'une alerte ni la demande liée.</li>
+  <li><b>Pas de doublon</b> : une machine en dérive peut envoyer de nombreuses alertes ; elles sont rattachées à la demande déjà ouverte (étape non terminée, non archivée).</li>
+  <li><b>Décision humaine</b> : la plateforme ne fixe aucune date d'intervention. Les fausses alertes sont enregistrées pour mesurer la fiabilité des alertes (KPI).</li>
+</ul>
+
+<h3>3.3 Vues, menus et sécurité</h3>
+<table>
+  <tr><th style="width:34%">Élément</th><th>Réalisation</th></tr>
+  <tr><td>Fiche équipement</td><td>Onglet « Santé » (score en barre de progression, état coloré, indicateurs, seuils de la catégorie, dernières alertes) et bouton « Alertes », ajoutés par <code>inherit_id</code> et <code>xpath</code> sur <code>maintenance.hr_equipment_view_form</code>.</td></tr>
+  <tr><td>Liste des équipements</td><td>Identifiant capteur, score et état coloré, par héritage de <code>maintenance.hr_equipment_view_tree</code>.</td></tr>
+  <tr><td>Alertes</td><td>Liste colorée par gravité, formulaire avec barre d'état et boutons, recherche avec filtres et regroupements.</td></tr>
+  <tr><td>Seuils</td><td>Liste éditable directement en ligne, regroupée par catégorie.</td></tr>
+  <tr><td>Demandes</td><td>Alerte d'origine et alertes rattachées affichées dans le formulaire.</td></tr>
+  <tr><td>Menu</td><td>Maintenance › PrediMaint › Alertes, Seuils capteurs.</td></tr>
+  <tr><td>Droits (<code>ir.model.access.csv</code>)</td><td>Lecture pour les utilisateurs internes ; tous les droits pour le groupe <code>maintenance.group_equipment_manager</code> (seul le responsable décide).</td></tr>
+</table>
+
+<h3>3.4 Données de base</h3>
+<p>Chargées par un fichier XML en <code>noupdate</code>, pour qu'une mise à jour du module n'écrase pas les
+modifications faites dans Odoo ni les scores envoyés par la chaîne Big Data.</p>
+<table>
+  <tr><th>Catégorie</th><th>Équipements</th><th>Équipe</th><th>Exemples de seuils (alerte / critique)</th></tr>
+  <tr><td>Presses</td><td>PRESSE-01 à 05</td><td>Mécanique</td><td>Température 60 / 75 °C · pression 180 / 200 bar</td></tr>
+  <tr><td>Compresseurs</td><td>COMP-01 à 05</td><td>Mécanique</td><td>Température 90 / 105 °C · pression 8,5 / 10 bar</td></tr>
+  <tr><td>Convoyeurs</td><td>CONV-01 à 05</td><td>Électrique</td><td>Vibration 2,8 / 4,5 mm/s · puissance 7,5 / 9,5 kW</td></tr>
+  <tr><td>Pompes</td><td>POMPE-01 à 05</td><td>Électrique</td><td>Température 65 / 80 °C · pression 6 / 7,5 bar</td></tr>
+</table>
+<p class="note">Les identifiants capteurs (<code>PRESSE-01</code>…) sont les mêmes que ceux du simulateur du mini-projet Big Data.
+Les scores initiaux sont variés : 16 équipements à l'état Normal, 3 en Surveillance et 1 en Critique.</p>
+
+<h2>4. Tests et vérifications</h2>
+<div class="chiffres">
+  <div class="chiffre"><b>17 / 17</b><span>tests unitaires réussis (relancés le 7/11)</span></div>
+  <div class="chiffre"><b>0</b><span>avertissement à l'installation sur base vierge</span></div>
+  <div class="chiffre"><b>20</b><span>équipements chargés, 19 seuils</span></div>
+  <div class="chiffre"><b>1</b><span>demande prédictive créée en démonstration</span></div>
+</div>
+<table>
+  <tr><th style="width:30%">Thème des tests</th><th style="width:8%">Nb</th><th>Ce qui est vérifié</th></tr>
+  <tr><td>État de santé</td><td>3</td><td>Bornes 70 et 40 comprises ; état stocké et filtrable ; score refusé hors de 0 à 100.</td></tr>
+  <tr><td>Seuils</td><td>2</td><td>Seuil critique ≤ seuil d'alerte refusé ; gravité calculée correctement.</td></tr>
+  <tr><td>API et déduplication</td><td>9</td><td>Référence ALR0001 ; alerte de surveillance sans demande ; alerte critique → demande prédictive (étape, équipe, sans date) ; 2e alerte rattachée (une seule demande) ; demande ouverte réutilisée ; demande terminée non réutilisée ; champ interdit refusé ; équipement inconnu refusé ; date ISO 8601 acceptée.</td></tr>
+  <tr><td>Boutons et compteur</td><td>3</td><td>Validation d'une alerte de surveillance ; fausse alerte ; nombre d'alertes par équipement.</td></tr>
+</table>
+<p><b>Démonstration réelle.</b> Une alerte envoyée par XML-RPC sur COMP-03 (température 112,4 °C, seuil critique
+105 °C) a produit l'alerte <b>ALR0001</b>, de gravité critique, et la demande « [Prédictive] COMP-03 … » à l'étape
+<b>Nouvelle demande</b>, affectée à l'<b>Équipe mécanique</b>, en priorité haute, sans date planifiée.</p>
+<p class="note">Les tests tournent sur une base séparée (<code>predimaint_test</code>), jamais sur la base de travail. Chaque test s'exécute dans une transaction annulée à la fin.</p>
+
+<h2>5. Choix techniques</h2>
+<table>
+  <tr><th style="width:32%">Choix</th><th>Justification</th></tr>
+  <tr><td>Héritage plutôt que modification</td><td>Le module Maintenance reste intact et peut être mis à jour par Odoo.</td></tr>
+  <tr><td>Nouveau champ <code>pm_mtbf_hours</code></td><td>Le standard possède déjà un champ <code>mtbf</code> (en jours) : le redéfinir casserait son calcul.</td></tr>
+  <tr><td>Étape trouvée par <code>maintenance.stage_0</code></td><td>Un identifiant XML ne change pas avec la langue (« New Request » / « Nouvelle demande »).</td></tr>
+  <tr><td>XML-RPC pour l'intégration</td><td>Méthode native adaptée à un script interne (comparatif du chapitre IV) ; JSON-2 n'existe qu'à partir d'Odoo 19.</td></tr>
+  <tr><td>Liste blanche des champs de l'API</td><td>La source externe envoie la mesure, Odoo applique les règles métier.</td></tr>
+  <tr><td>Aucun mot de passe dans le dépôt</td><td>Configuration réelle hors dépôt ; seul un modèle sans mot de passe est fourni ; le script de test demande le mot de passe au clavier.</td></tr>
+</table>
+
+<h2>6. Difficultés rencontrées et solutions</h2>
+<table>
+  <tr><th style="width:34%">Difficulté</th><th>Solution retenue</th></tr>
+  <tr><td>Champ <code>mtbf</code> déjà défini par le standard</td><td>Nouveau champ distinct <code>pm_mtbf_hours</code>.</td></tr>
+  <tr><td>PostgreSQL 18 refuse les bases créées par Odoo (tri et jeu de caractères différents)</td><td>Bases créées à l'avance en <code>LC_COLLATE 'C'</code> et <code>LC_CTYPE 'C'</code>, puis initialisées par Odoo.</td></tr>
+  <tr><td>Service Windows Odoo déjà sur le port 8069 et redémarré au démarrage du PC</td><td>Configuration dédiée pour PyCharm sur le port 8070 ; les deux cohabitent.</td></tr>
+  <tr><td>Dossier de données du service non accessible en écriture</td><td><code>data_dir</code> placé dans le dossier du projet, exclu du dépôt.</td></tr>
+  <tr><td>Réorganisation du projet en deux dossiers</td><td>Chemins de configuration mis à jour ; module rechargé et tests relancés avec succès.</td></tr>
+</table>
+
+<h2>7. Limites actuelles</h2>
+<ul>
+  <li>Un seul utilisateur (administrateur) : les droits par groupe ne sont pas encore testés avec des utilisateurs non administrateurs.</li>
+  <li>Les alertes viennent pour l'instant d'un script de test ; le connecteur Big Data reste à écrire.</li>
+  <li>Les demandes prédictives n'apparaissent pas dans l'action standard « demandes d'une équipe » du tableau de bord, qui filtre sur les types corrective et préventive : à corriger par héritage de l'action.</li>
+  <li>Le score de santé, le MTBF et la disponibilité seront alimentés par le traitement batch Spark ; ils sont initialisés par les données de démonstration.</li>
+</ul>
+
+<h2>8. Prochaines étapes</h2>
+<table>
+  <tr><th style="width:6%">#</th><th>Travail prévu</th><th style="width:18%">Référence</th></tr>
+  <tr><td>1</td><td>Kanban des équipements coloré par état ; vues graphique et pivot des alertes.</td><td>§ 5.5, 6.2</td></tr>
+  <tr><td>2</td><td>Rapport QWeb « Fiche santé équipement » en PDF.</td><td>§ 6.3</td></tr>
+  <tr><td>3</td><td>Escalade <code>ir.cron</code> (alerte critique non traitée sous 2 h) et message Discuss à l'équipe.</td><td>§ 6.4</td></tr>
+  <tr><td>4</td><td>Groupes opérateur, technicien, direction, utilisateur API ; règle par équipe ; tests non-admin.</td><td>§ 5.4, 6.5</td></tr>
+  <tr><td>5</td><td>Pièces détachées, module Achats, réapprovisionnement ; import CSV de l'historique.</td><td>§ 5.1, 5.2</td></tr>
+  <tr><td>6</td><td>Connexion avec la chaîne Big Data : connecteur, webhook sortant vers <code>odoo.events</code>.</td><td>§ 9.1</td></tr>
+</table>
+
+<h2>Annexe · Installation et tests</h2>
+<pre>$py   = "C:\Program Files\Odoo 17.0.20260930\python\python.exe"
+$odoo = "C:\Program Files\Odoo 17.0.20260930\server\odoo-bin"
+$conf = "Mini Projet ERP\config\odoo.conf"          # copie de odoo.conf.example, mots de passe renseignés
+
+# Installation dans la base de travail
+&amp; $py $odoo -c $conf -d predimaint -i predimaint --without-demo=all --stop-after-init
+# Tests sur une base séparée
+&amp; $py $odoo -c $conf -d predimaint_test -i predimaint --without-demo=all --test-enable --test-tags /predimaint --stop-after-init
+# Lancement : http://localhost:8070/web
+&amp; $py $odoo -c $conf -d predimaint</pre>
+<p class="note">Détails dans <code>README.md</code> ; journal des séances dans <code>docs/journal_de_bord.md</code>.</p>
+
+</body>
+</html>

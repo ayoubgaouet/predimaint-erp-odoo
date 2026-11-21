@@ -1,0 +1,17 @@
+# --- Secrets : configuration locale avec les mots de passe PostgreSQL et Odoo ---
+# Seul config/odoo.conf.example (sans mot de passe) est versionné.
+config/odoo.conf
+
+# --- Données d'Odoo (filestore, sessions) : propres à chaque machine ---
+.odoo_data/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+
+# --- Éditeurs et système ---
+.idea/
+.vscode/
+*.log
+Thumbs.db
+desktop.ini

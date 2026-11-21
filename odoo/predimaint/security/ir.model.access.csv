@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_predimaint_alert_user,predimaint.alert.user,model_predimaint_alert,base.group_user,1,0,0,0
+access_predimaint_alert_manager,predimaint.alert.manager,model_predimaint_alert,maintenance.group_equipment_manager,1,1,1,1
+access_predimaint_threshold_user,predimaint.sensor.threshold.user,model_predimaint_sensor_threshold,base.group_user,1,0,0,0
+access_predimaint_threshold_manager,predimaint.sensor.threshold.manager,model_predimaint_sensor_threshold,maintenance.group_equipment_manager,1,1,1,1

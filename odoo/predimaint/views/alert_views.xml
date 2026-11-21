@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Liste des alertes : rouge = critique, orange = surveillance, gris = fausse alerte -->
+    <record id="predimaint_alert_view_tree" model="ir.ui.view">
+        <field name="name">predimaint.alert.tree</field>
+        <field name="model">predimaint.alert</field>
+        <field name="arch" type="xml">
+            <tree string="Alertes"
+                  decoration-danger="severity == 'critique' and state == 'new'"
+                  decoration-warning="severity == 'surveillance' and state == 'new'"
+                  decoration-muted="state == 'false_alarm'">
+                <field name="name"/>
+                <field name="alert_date"/>
+                <field name="equipment_id"/>
+                <field name="sensor_ref" optional="show"/>
+                <field name="category_id" optional="hide"/>
+                <field name="maintenance_team_id" optional="show"/>
+                <field name="measure_type"/>
+                <field name="value"/>
+                <field name="threshold"/>
+                <field name="unit"/>
+                <field name="severity" widget="badge"
+                       decoration-danger="severity == 'critique'"
+                       decoration-warning="severity == 'surveillance'"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'new'"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'false_alarm'"/>
+                <field name="request_id" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Formulaire : les deux boutons de décision du responsable maintenance -->
+    <record id="predimaint_alert_view_form" model="ir.ui.view">
+        <field name="name">predimaint.alert.form</field>
+        <field name="model">predimaint.alert</field>
+        <field name="arch" type="xml">
+            <form string="Alerte">
+                <header>
+                    <button name="action_validate" type="object"
+                            string="Valider et créer la demande"
+                            class="btn-primary" invisible="state != 'new'"
+                            groups="maintenance.group_equipment_manager"/>
+                    <button name="action_false_alarm" type="object"
+                            string="Fausse alerte" invisible="state != 'new'"
+                            groups="maintenance.group_equipment_manager"/>
+                    <button name="action_reset_new" type="object"
+                            string="Remettre à Nouvelle" invisible="state == 'new'"
+                            groups="maintenance.group_equipment_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Critique" bg_color="text-bg-danger"
+                            invisible="severity != 'critique' or state != 'new'"/>
+                    <widget name="web_ribbon" title="Fausse alerte" bg_color="text-bg-secondary"
+                            invisible="state != 'false_alarm'"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group string="Équipement">
+                            <field name="equipment_id" readonly="state != 'new'"/>
+                            <field name="sensor_ref"/>
+                            <field name="category_id"/>
+                            <field name="maintenance_team_id"/>
+                        </group>
+                        <group string="Mesure">
+                            <field name="measure_type" readonly="state != 'new'"/>
+                            <label for="value"/>
+                            <div class="o_row">
+                                <field name="value" readonly="state != 'new'"/>
+                                <field name="unit" readonly="state != 'new'"/>
+                            </div>
+                            <field name="threshold" readonly="state != 'new'"/>
+                            <field name="severity" readonly="state != 'new'"/>
+                            <field name="alert_date" readonly="state != 'new'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="request_id" readonly="1"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="predimaint_alert_view_search" model="ir.ui.view">
+        <field name="name">predimaint.alert.search</field>
+        <field name="model">predimaint.alert</field>
+        <field name="arch" type="xml">
+            <search string="Alertes">
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="sensor_ref"/>
+                <field name="request_id"/>
+                <filter name="filter_new" string="Nouvelles" domain="[('state', '=', 'new')]"/>
+                <filter name="filter_critical" string="Critiques" domain="[('severity', '=', 'critique')]"/>
+                <filter name="filter_false" string="Fausses alertes" domain="[('state', '=', 'false_alarm')]"/>
+                <separator/>
+                <filter name="filter_date" string="Date de l'alerte" date="alert_date"/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_equipment" string="Équipement" context="{'group_by': 'equipment_id'}"/>
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_measure" string="Grandeur" context="{'group_by': 'measure_type'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_month" string="Mois" context="{'group_by': 'alert_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="predimaint_alert_action" model="ir.actions.act_window">
+        <field name="name">Alertes</field>
+        <field name="res_model">predimaint.alert</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="predimaint_alert_view_search"/>
+        <field name="context">{'search_default_filter_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune alerte pour le moment</p>
+            <p>Les alertes sont créées automatiquement par la chaîne Big Data
+               (méthode <code>create_from_api</code>).</p>
+        </field>
+    </record>
+
+</odoo>

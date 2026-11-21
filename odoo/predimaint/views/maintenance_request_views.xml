@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Formulaire des demandes : on affiche l'alerte d'origine sous le type de maintenance -->
+    <record id="maintenance_request_view_form_inherit_predimaint" model="ir.ui.view">
+        <field name="name">maintenance.request.form.inherit.predimaint</field>
+        <field name="model">maintenance.request</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_request_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='maintenance_type']" position="after">
+                <field name="alert_id" invisible="not alert_id"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Alertes PrediMaint rattachées" invisible="not alert_ids">
+                    <field name="alert_ids" nolabel="1" colspan="2" readonly="1">
+                        <tree>
+                            <field name="name"/>
+                            <field name="alert_date"/>
+                            <field name="measure_type"/>
+                            <field name="value"/>
+                            <field name="unit"/>
+                            <field name="severity"/>
+                            <field name="state"/>
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

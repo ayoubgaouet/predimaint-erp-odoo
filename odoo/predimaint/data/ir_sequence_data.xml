@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate : le compteur n'est jamais remis à zéro par une mise à jour du module -->
+    <data noupdate="1">
+        <record id="seq_predimaint_alert" model="ir.sequence">
+            <field name="name">Alertes PrediMaint</field>
+            <field name="code">predimaint.alert</field>
+            <field name="prefix">ALR</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Données de base réalistes (cahier des charges, section 5.2).
+         noupdate="1" : une mise à jour du module (-u predimaint) ne réécrit pas
+         ces enregistrements, pour ne pas écraser les modifications faites dans Odoo
+         ni les scores envoyés par Spark batch.
+         Les identifiants capteur (PRESSE-01...) sont repris par le simulateur Big Data. -->
+    <data noupdate="1">
+
+        <!-- Équipes -->
+        <record id="team_mecanique" model="maintenance.team">
+            <field name="name">Équipe mécanique</field>
+        </record>
+        <record id="team_electrique" model="maintenance.team">
+            <field name="name">Équipe électrique</field>
+        </record>
+
+        <!-- Catégories -->
+        <record id="category_presses" model="maintenance.equipment.category">
+            <field name="name">Presses</field>
+        </record>
+        <record id="category_compresseurs" model="maintenance.equipment.category">
+            <field name="name">Compresseurs</field>
+        </record>
+        <record id="category_convoyeurs" model="maintenance.equipment.category">
+            <field name="name">Convoyeurs</field>
+        </record>
+        <record id="category_pompes" model="maintenance.equipment.category">
+            <field name="name">Pompes</field>
+        </record>
+
+        <!-- Seuils par catégorie (alerte / critique) -->
+        <record id="threshold_presses_temperature" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_presses"/>
+            <field name="measure_type">temperature</field>
+            <field name="alert_threshold">60</field>
+            <field name="critical_threshold">75</field>
+            <field name="unit">°C</field>
+        </record>
+        <record id="threshold_presses_vibration" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_presses"/>
+            <field name="measure_type">vibration</field>
+            <field name="alert_threshold">4.5</field>
+            <field name="critical_threshold">7.1</field>
+            <field name="unit">mm/s</field>
+        </record>
+        <record id="threshold_presses_pression" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_presses"/>
+            <field name="measure_type">pression</field>
+            <field name="alert_threshold">180</field>
+            <field name="critical_threshold">200</field>
+            <field name="unit">bar</field>
+        </record>
+        <record id="threshold_presses_puissance_kw" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_presses"/>
+            <field name="measure_type">puissance_kw</field>
+            <field name="alert_threshold">45</field>
+            <field name="critical_threshold">55</field>
+            <field name="unit">kW</field>
+        </record>
+        <record id="threshold_presses_bruit_db" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_presses"/>
+            <field name="measure_type">bruit_db</field>
+            <field name="alert_threshold">85</field>
+            <field name="critical_threshold">95</field>
+            <field name="unit">dB</field>
+        </record>
+        <record id="threshold_compresseurs_temperature" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="measure_type">temperature</field>
+            <field name="alert_threshold">90</field>
+            <field name="critical_threshold">105</field>
+            <field name="unit">°C</field>
+        </record>
+        <record id="threshold_compresseurs_vibration" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="measure_type">vibration</field>
+            <field name="alert_threshold">4.5</field>
+            <field name="critical_threshold">7.1</field>
+            <field name="unit">mm/s</field>
+        </record>
+        <record id="threshold_compresseurs_pression" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="measure_type">pression</field>
+            <field name="alert_threshold">8.5</field>
+            <field name="critical_threshold">10</field>
+            <field name="unit">bar</field>
+        </record>
+        <record id="threshold_compresseurs_puissance_kw" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="measure_type">puissance_kw</field>
+            <field name="alert_threshold">33</field>
+            <field name="critical_threshold">39</field>
+            <field name="unit">kW</field>
+        </record>
+        <record id="threshold_compresseurs_bruit_db" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="measure_type">bruit_db</field>
+            <field name="alert_threshold">80</field>
+            <field name="critical_threshold">90</field>
+            <field name="unit">dB</field>
+        </record>
+        <record id="threshold_convoyeurs_temperature" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="measure_type">temperature</field>
+            <field name="alert_threshold">70</field>
+            <field name="critical_threshold">85</field>
+            <field name="unit">°C</field>
+        </record>
+        <record id="threshold_convoyeurs_vibration" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="measure_type">vibration</field>
+            <field name="alert_threshold">2.8</field>
+            <field name="critical_threshold">4.5</field>
+            <field name="unit">mm/s</field>
+        </record>
+        <record id="threshold_convoyeurs_puissance_kw" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="measure_type">puissance_kw</field>
+            <field name="alert_threshold">7.5</field>
+            <field name="critical_threshold">9.5</field>
+            <field name="unit">kW</field>
+        </record>
+        <record id="threshold_convoyeurs_bruit_db" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="measure_type">bruit_db</field>
+            <field name="alert_threshold">75</field>
+            <field name="critical_threshold">85</field>
+            <field name="unit">dB</field>
+        </record>
+        <record id="threshold_pompes_temperature" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_pompes"/>
+            <field name="measure_type">temperature</field>
+            <field name="alert_threshold">65</field>
+            <field name="critical_threshold">80</field>
+            <field name="unit">°C</field>
+        </record>
+        <record id="threshold_pompes_vibration" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_pompes"/>
+            <field name="measure_type">vibration</field>
+            <field name="alert_threshold">2.8</field>
+            <field name="critical_threshold">4.5</field>
+            <field name="unit">mm/s</field>
+        </record>
+        <record id="threshold_pompes_pression" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_pompes"/>
+            <field name="measure_type">pression</field>
+            <field name="alert_threshold">6</field>
+            <field name="critical_threshold">7.5</field>
+            <field name="unit">bar</field>
+        </record>
+        <record id="threshold_pompes_puissance_kw" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_pompes"/>
+            <field name="measure_type">puissance_kw</field>
+            <field name="alert_threshold">15</field>
+            <field name="critical_threshold">18.5</field>
+            <field name="unit">kW</field>
+        </record>
+        <record id="threshold_pompes_bruit_db" model="predimaint.sensor.threshold">
+            <field name="category_id" ref="category_pompes"/>
+            <field name="measure_type">bruit_db</field>
+            <field name="alert_threshold">80</field>
+            <field name="critical_threshold">90</field>
+            <field name="unit">dB</field>
+        </record>
+
+        <!-- 20 équipements -->
+        <record id="equipment_presse_01" model="maintenance.equipment">
+            <field name="name">PRESSE-01 Presse hydraulique 250 t</field>
+            <field name="sensor_ref">PRESSE-01</field>
+            <field name="category_id" ref="category_presses"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Schuler HPM-250</field>
+            <field name="serial_no">SN-PRESSE-2021001</field>
+            <field name="location">Atelier emboutissage</field>
+            <field name="effective_date">2021-02-15</field>
+            <field name="health_score">92</field>
+            <field name="pm_mtbf_hours">1136</field>
+            <field name="availability_rate">98.4</field>
+        </record>
+        <record id="equipment_presse_02" model="maintenance.equipment">
+            <field name="name">PRESSE-02 Presse hydraulique 250 t</field>
+            <field name="sensor_ref">PRESSE-02</field>
+            <field name="category_id" ref="category_presses"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Schuler HPM-250</field>
+            <field name="serial_no">SN-PRESSE-2021002</field>
+            <field name="location">Atelier emboutissage</field>
+            <field name="effective_date">2021-03-15</field>
+            <field name="health_score">88</field>
+            <field name="pm_mtbf_hours">1104</field>
+            <field name="availability_rate">97.6</field>
+        </record>
+        <record id="equipment_presse_03" model="maintenance.equipment">
+            <field name="name">PRESSE-03 Presse hydraulique 250 t</field>
+            <field name="sensor_ref">PRESSE-03</field>
+            <field name="category_id" ref="category_presses"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Schuler HPM-250</field>
+            <field name="serial_no">SN-PRESSE-2021003</field>
+            <field name="location">Atelier emboutissage</field>
+            <field name="effective_date">2021-04-15</field>
+            <field name="health_score">63</field>
+            <field name="pm_mtbf_hours">904</field>
+            <field name="availability_rate">92.6</field>
+        </record>
+        <record id="equipment_presse_04" model="maintenance.equipment">
+            <field name="name">PRESSE-04 Presse hydraulique 250 t</field>
+            <field name="sensor_ref">PRESSE-04</field>
+            <field name="category_id" ref="category_presses"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Schuler HPM-250</field>
+            <field name="serial_no">SN-PRESSE-2021004</field>
+            <field name="location">Atelier emboutissage</field>
+            <field name="effective_date">2021-05-15</field>
+            <field name="health_score">95</field>
+            <field name="pm_mtbf_hours">1160</field>
+            <field name="availability_rate">99.0</field>
+        </record>
+        <record id="equipment_presse_05" model="maintenance.equipment">
+            <field name="name">PRESSE-05 Presse hydraulique 250 t</field>
+            <field name="sensor_ref">PRESSE-05</field>
+            <field name="category_id" ref="category_presses"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Schuler HPM-250</field>
+            <field name="serial_no">SN-PRESSE-2021005</field>
+            <field name="location">Atelier emboutissage</field>
+            <field name="effective_date">2021-06-15</field>
+            <field name="health_score">81</field>
+            <field name="pm_mtbf_hours">1048</field>
+            <field name="availability_rate">96.2</field>
+        </record>
+        <record id="equipment_comp_01" model="maintenance.equipment">
+            <field name="name">COMP-01 Compresseur d'air à vis 37 kW</field>
+            <field name="sensor_ref">COMP-01</field>
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Atlas Copco GA37</field>
+            <field name="serial_no">SN-COMP-2021001</field>
+            <field name="location">Local compresseurs</field>
+            <field name="effective_date">2021-02-15</field>
+            <field name="health_score">90</field>
+            <field name="pm_mtbf_hours">1120</field>
+            <field name="availability_rate">98.0</field>
+        </record>
+        <record id="equipment_comp_02" model="maintenance.equipment">
+            <field name="name">COMP-02 Compresseur d'air à vis 37 kW</field>
+            <field name="sensor_ref">COMP-02</field>
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Atlas Copco GA37</field>
+            <field name="serial_no">SN-COMP-2021002</field>
+            <field name="location">Local compresseurs</field>
+            <field name="effective_date">2021-03-15</field>
+            <field name="health_score">76</field>
+            <field name="pm_mtbf_hours">1008</field>
+            <field name="availability_rate">95.2</field>
+        </record>
+        <record id="equipment_comp_03" model="maintenance.equipment">
+            <field name="name">COMP-03 Compresseur d'air à vis 37 kW</field>
+            <field name="sensor_ref">COMP-03</field>
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Atlas Copco GA37</field>
+            <field name="serial_no">SN-COMP-2021003</field>
+            <field name="location">Local compresseurs</field>
+            <field name="effective_date">2021-04-15</field>
+            <field name="health_score">85</field>
+            <field name="pm_mtbf_hours">1080</field>
+            <field name="availability_rate">97.0</field>
+        </record>
+        <record id="equipment_comp_04" model="maintenance.equipment">
+            <field name="name">COMP-04 Compresseur d'air à vis 37 kW</field>
+            <field name="sensor_ref">COMP-04</field>
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Atlas Copco GA37</field>
+            <field name="serial_no">SN-COMP-2021004</field>
+            <field name="location">Local compresseurs</field>
+            <field name="effective_date">2021-05-15</field>
+            <field name="health_score">35</field>
+            <field name="pm_mtbf_hours">680</field>
+            <field name="availability_rate">87.0</field>
+        </record>
+        <record id="equipment_comp_05" model="maintenance.equipment">
+            <field name="name">COMP-05 Compresseur d'air à vis 37 kW</field>
+            <field name="sensor_ref">COMP-05</field>
+            <field name="category_id" ref="category_compresseurs"/>
+            <field name="maintenance_team_id" ref="team_mecanique"/>
+            <field name="model">Atlas Copco GA37</field>
+            <field name="serial_no">SN-COMP-2021005</field>
+            <field name="location">Local compresseurs</field>
+            <field name="effective_date">2021-06-15</field>
+            <field name="health_score">97</field>
+            <field name="pm_mtbf_hours">1176</field>
+            <field name="availability_rate">99.4</field>
+        </record>
+        <record id="equipment_conv_01" model="maintenance.equipment">
+            <field name="name">CONV-01 Convoyeur à bande 12 m</field>
+            <field name="sensor_ref">CONV-01</field>
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Interroll CB-1200</field>
+            <field name="serial_no">SN-CONV-2021001</field>
+            <field name="location">Ligne assemblage</field>
+            <field name="effective_date">2021-02-15</field>
+            <field name="health_score">94</field>
+            <field name="pm_mtbf_hours">1152</field>
+            <field name="availability_rate">98.8</field>
+        </record>
+        <record id="equipment_conv_02" model="maintenance.equipment">
+            <field name="name">CONV-02 Convoyeur à bande 12 m</field>
+            <field name="sensor_ref">CONV-02</field>
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Interroll CB-1200</field>
+            <field name="serial_no">SN-CONV-2021002</field>
+            <field name="location">Ligne assemblage</field>
+            <field name="effective_date">2021-03-15</field>
+            <field name="health_score">89</field>
+            <field name="pm_mtbf_hours">1112</field>
+            <field name="availability_rate">97.8</field>
+        </record>
+        <record id="equipment_conv_03" model="maintenance.equipment">
+            <field name="name">CONV-03 Convoyeur à bande 12 m</field>
+            <field name="sensor_ref">CONV-03</field>
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Interroll CB-1200</field>
+            <field name="serial_no">SN-CONV-2021003</field>
+            <field name="location">Ligne assemblage</field>
+            <field name="effective_date">2021-04-15</field>
+            <field name="health_score">71</field>
+            <field name="pm_mtbf_hours">968</field>
+            <field name="availability_rate">94.2</field>
+        </record>
+        <record id="equipment_conv_04" model="maintenance.equipment">
+            <field name="name">CONV-04 Convoyeur à bande 12 m</field>
+            <field name="sensor_ref">CONV-04</field>
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Interroll CB-1200</field>
+            <field name="serial_no">SN-CONV-2021004</field>
+            <field name="location">Ligne assemblage</field>
+            <field name="effective_date">2021-05-15</field>
+            <field name="health_score">58</field>
+            <field name="pm_mtbf_hours">864</field>
+            <field name="availability_rate">91.6</field>
+        </record>
+        <record id="equipment_conv_05" model="maintenance.equipment">
+            <field name="name">CONV-05 Convoyeur à bande 12 m</field>
+            <field name="sensor_ref">CONV-05</field>
+            <field name="category_id" ref="category_convoyeurs"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Interroll CB-1200</field>
+            <field name="serial_no">SN-CONV-2021005</field>
+            <field name="location">Ligne assemblage</field>
+            <field name="effective_date">2021-06-15</field>
+            <field name="health_score">93</field>
+            <field name="pm_mtbf_hours">1144</field>
+            <field name="availability_rate">98.6</field>
+        </record>
+        <record id="equipment_pompe_01" model="maintenance.equipment">
+            <field name="name">POMPE-01 Pompe centrifuge 15 kW</field>
+            <field name="sensor_ref">POMPE-01</field>
+            <field name="category_id" ref="category_pompes"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Grundfos NB 65-200</field>
+            <field name="serial_no">SN-POMPE-2021001</field>
+            <field name="location">Station de refroidissement</field>
+            <field name="effective_date">2021-02-15</field>
+            <field name="health_score">87</field>
+            <field name="pm_mtbf_hours">1096</field>
+            <field name="availability_rate">97.4</field>
+        </record>
+        <record id="equipment_pompe_02" model="maintenance.equipment">
+            <field name="name">POMPE-02 Pompe centrifuge 15 kW</field>
+            <field name="sensor_ref">POMPE-02</field>
+            <field name="category_id" ref="category_pompes"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Grundfos NB 65-200</field>
+            <field name="serial_no">SN-POMPE-2021002</field>
+            <field name="location">Station de refroidissement</field>
+            <field name="effective_date">2021-03-15</field>
+            <field name="health_score">96</field>
+            <field name="pm_mtbf_hours">1168</field>
+            <field name="availability_rate">99.2</field>
+        </record>
+        <record id="equipment_pompe_03" model="maintenance.equipment">
+            <field name="name">POMPE-03 Pompe centrifuge 15 kW</field>
+            <field name="sensor_ref">POMPE-03</field>
+            <field name="category_id" ref="category_pompes"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Grundfos NB 65-200</field>
+            <field name="serial_no">SN-POMPE-2021003</field>
+            <field name="location">Station de refroidissement</field>
+            <field name="effective_date">2021-04-15</field>
+            <field name="health_score">79</field>
+            <field name="pm_mtbf_hours">1032</field>
+            <field name="availability_rate">95.8</field>
+        </record>
+        <record id="equipment_pompe_04" model="maintenance.equipment">
+            <field name="name">POMPE-04 Pompe centrifuge 15 kW</field>
+            <field name="sensor_ref">POMPE-04</field>
+            <field name="category_id" ref="category_pompes"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Grundfos NB 65-200</field>
+            <field name="serial_no">SN-POMPE-2021004</field>
+            <field name="location">Station de refroidissement</field>
+            <field name="effective_date">2021-05-15</field>
+            <field name="health_score">91</field>
+            <field name="pm_mtbf_hours">1128</field>
+            <field name="availability_rate">98.2</field>
+        </record>
+        <record id="equipment_pompe_05" model="maintenance.equipment">
+            <field name="name">POMPE-05 Pompe centrifuge 15 kW</field>
+            <field name="sensor_ref">POMPE-05</field>
+            <field name="category_id" ref="category_pompes"/>
+            <field name="maintenance_team_id" ref="team_electrique"/>
+            <field name="model">Grundfos NB 65-200</field>
+            <field name="serial_no">SN-POMPE-2021005</field>
+            <field name="location">Station de refroidissement</field>
+            <field name="effective_date">2021-06-15</field>
+            <field name="health_score">66</field>
+            <field name="pm_mtbf_hours">928</field>
+            <field name="availability_rate">93.2</field>
+        </record>
+
+    </data>
+</odoo>

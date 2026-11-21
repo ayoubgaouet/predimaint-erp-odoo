@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Héritage du formulaire standard des équipements (maintenance.hr_equipment_view_form).
+         On ne modifie pas le fichier du module Maintenance : on ajoute des éléments
+         à des endroits repérés par xpath. -->
+    <record id="maintenance_equipment_view_form_inherit_predimaint" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.inherit.predimaint</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Bouton intelligent « Alertes » dans la zone des boutons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_alerts" type="object"
+                        class="oe_stat_button" icon="fa-bell">
+                    <field name="alert_count" widget="statinfo" string="Alertes"/>
+                </button>
+            </xpath>
+
+            <!-- Onglet « Santé » placé avant l'onglet standard « Description » -->
+            <xpath expr="//notebook/page[@name='description']" position="before">
+                <page string="Santé" name="predimaint_health">
+                    <group>
+                        <group string="État de la machine">
+                            <field name="sensor_ref" placeholder="ex. PRESSE-01"/>
+                            <field name="health_score" widget="progressbar"/>
+                            <field name="health_state" widget="badge"
+                                   decoration-success="health_state == 'normal'"
+                                   decoration-warning="health_state == 'surveillance'"
+                                   decoration-danger="health_state == 'critique'"/>
+                            <field name="last_measure_date"/>
+                        </group>
+                        <group string="Indicateurs (Spark batch)">
+                            <field name="pm_mtbf_hours"/>
+                            <field name="availability_rate"/>
+                            <field name="alert_count"/>
+                        </group>
+                    </group>
+                    <separator string="Seuils applicables (catégorie)"/>
+                    <field name="threshold_ids" nolabel="1">
+                        <tree>
+                            <field name="measure_type"/>
+                            <field name="alert_threshold"/>
+                            <field name="critical_threshold"/>
+                            <field name="unit"/>
+                        </tree>
+                    </field>
+                    <separator string="Dernières alertes"/>
+                    <field name="alert_ids" nolabel="1" readonly="1">
+                        <tree limit="10"
+                              decoration-danger="severity == 'critique' and state == 'new'"
+                              decoration-warning="severity == 'surveillance' and state == 'new'"
+                              decoration-muted="state == 'false_alarm'">
+                            <field name="name"/>
+                            <field name="alert_date"/>
+                            <field name="measure_type"/>
+                            <field name="value"/>
+                            <field name="unit"/>
+                            <field name="severity"/>
+                            <field name="state"/>
+                            <field name="request_id"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Liste des équipements : identifiant capteur, score et état en couleur -->
+    <record id="maintenance_equipment_view_tree_inherit_predimaint" model="ir.ui.view">
+        <field name="name">maintenance.equipment.tree.inherit.predimaint</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="sensor_ref" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="health_score" optional="show" widget="progressbar"/>
+                <field name="health_state" optional="show" widget="badge"
+                       decoration-success="health_state == 'normal'"
+                       decoration-warning="health_state == 'surveillance'"
+                       decoration-danger="health_state == 'critique'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

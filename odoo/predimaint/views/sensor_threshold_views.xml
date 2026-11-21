@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Liste éditable : on modifie les seuils directement dans la ligne -->
+    <record id="predimaint_sensor_threshold_view_tree" model="ir.ui.view">
+        <field name="name">predimaint.sensor.threshold.tree</field>
+        <field name="model">predimaint.sensor.threshold</field>
+        <field name="arch" type="xml">
+            <tree string="Seuils capteurs" editable="bottom">
+                <field name="category_id"/>
+                <field name="measure_type"/>
+                <field name="alert_threshold"/>
+                <field name="critical_threshold"/>
+                <field name="unit"/>
+                <field name="active" column_invisible="True"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="predimaint_sensor_threshold_view_search" model="ir.ui.view">
+        <field name="name">predimaint.sensor.threshold.search</field>
+        <field name="model">predimaint.sensor.threshold</field>
+        <field name="arch" type="xml">
+            <search string="Seuils capteurs">
+                <field name="category_id"/>
+                <field name="measure_type"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Regrouper par">
+                    <filter name="group_category" string="Catégorie" context="{'group_by': 'category_id'}"/>
+                    <filter name="group_measure" string="Grandeur" context="{'group_by': 'measure_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="predimaint_sensor_threshold_action" model="ir.actions.act_window">
+        <field name="name">Seuils capteurs</field>
+        <field name="res_model">predimaint.sensor.threshold</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="predimaint_sensor_threshold_view_search"/>
+        <field name="context">{'search_default_group_category': 1}</field>
+    </record>
+
+</odoo>

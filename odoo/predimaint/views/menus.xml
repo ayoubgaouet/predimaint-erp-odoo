@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu « PrediMaint » sous le menu racine standard « Maintenance » -->
+    <menuitem id="menu_predimaint_root"
+              name="PrediMaint"
+              parent="maintenance.menu_maintenance_title"
+              groups="maintenance.group_equipment_manager,base.group_user"
+              sequence="5"/>
+
+    <menuitem id="menu_predimaint_alert"
+              name="Alertes"
+              parent="menu_predimaint_root"
+              action="predimaint_alert_action"
+              sequence="10"/>
+
+    <menuitem id="menu_predimaint_threshold"
+              name="Seuils capteurs"
+              parent="menu_predimaint_root"
+              action="predimaint_sensor_threshold_action"
+              sequence="20"/>
+</odoo>
